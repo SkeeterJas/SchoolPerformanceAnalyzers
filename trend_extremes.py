@@ -19,7 +19,31 @@ def load_and_normalize(filename):
 
     return df, prof_col
 
+
 def compute_deltas(df_early, prof_col_early, df_late, prof_col_late, school_type):
+    early = df_early[df_early['School'].str.contains(school_type, case=False, na=False)].copy()
+    late = df_late[df_late['School'].str.contains(school_type, case=False, na=False)].copy()
+
+    # Merge and compute actual column names
+    merged = pd.merge(
+        early,
+        late,
+        on=['School', 'District'],
+        suffixes=('_early', '_late')
+    )
+
+    early_col = prof_col_early + '_early'
+    late_col = prof_col_late + '_late'
+
+    if early_col not in merged.columns or late_col not in merged.columns:
+        raise KeyError(f"Expected columns '{early_col}' and/or '{late_col}' not found after merge.")
+
+    merged['Delta'] = merged[late_col] - merged[early_col]
+    merged = merged[['School', 'District', early_col, late_col, 'Delta']]
+
+    return merged
+
+def compute_deltas_old(df_early, prof_col_early, df_late, prof_col_late, school_type):
     early = df_early[df_early['School'].str.contains(school_type, case=False, na=False)].copy()
     late = df_late[df_late['School'].str.contains(school_type, case=False, na=False)].copy()
 
