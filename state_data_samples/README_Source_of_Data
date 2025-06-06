@@ -1,0 +1,9 @@
+Source of Data:
+
+https://www.oregon.gov/ode/educator-resources/assessment/pages/assessment-group-reports.aspx
+
+All automated analysis is based on the group: 'Total Population (All Students)', as this is believed to be most indicative of a schools effectiveness in teaching.
+
+If requested by users: TODO: Student group may be expanded to include analysis options via a command line flag specifying the population of interest.
+
+
